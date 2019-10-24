@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "MessageSala";
+}
+
+
+@{
+
+  var chatTracebility = (ICollection<ChatTracebility>)ViewData["chatTracebility"]; 
+   
+
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a  asp-controller="Admin" asp-action="Admin">Admin</a></li>
+    <li class="breadcrumb-item active"><a asp-controller="Admin" asp-action="Admin">Salas</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Mensajes</li>
+
+  </ol>
+</nav>
+
+ @if(chatTracebility != null )
+ {
+  
+    <ul class="list-group">
+      @foreach ( var mesage  in chatTracebility)
+      {
+          <li class="list-group-item">
+            <p></p>
+            <small></small>
+            <p></p>
+            <div class="card" style="border: none;">
+              <div class="card-body">
+                <h5 class="card-title"><strong>@mesage.UserName </strong></h5>
+                <small class="card-subtitle mb-2 text-muted">@mesage.AtDate</small>
+                <p class="card-text">@mesage.Message </p>
+              </div>
+            </div>
+          </li>
+      }
+    </ul>
+ }
+ else
+ {
+  <p>Debe selecionar el usuario y la sala para buscar sus mensajes</p>
+ }

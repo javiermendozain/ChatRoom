@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "SalaUsuario";
+    var salasByUser = (ICollection<Sala>)ViewData["salasByUser"]; 
+    var viewSalaUserName = ViewData["viewSalaUserName"]; 
+    var viewSalaUserID = ViewData["viewSalaUserID"]; 
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a  asp-controller="Admin" asp-action="Admin">Admin</a></li>
+    <li class="breadcrumb-item active"><a asp-controller="Admin" asp-action="Admin">Usuario</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Salas</li>
+  </ol>
+</nav>
+
+    @if(salasByUser != null )
+    {
+      <p>El usuario <strong> @viewSalaUserName </strong> ha partido en las siguientes salas.</p>
+      <ul class="list-group">
+          @foreach (var sala in salasByUser)
+          {
+            <li class="list-group-item">
+              @sala.Name 
+              <a  class="btn btn-link" 
+                     asp-controller="MessageSalaUsuario" asp-action="MessageSalaUsuario"
+                    asp-route-UserID="@viewSalaUserID" 
+                    asp-route-UserName="@viewSalaUserName" 
+                    asp-route-SalaID="@sala.Id" 
+
+                    
+                >
+                    Ver mensajes de la sala
+                </a>
+            </li>
+          }
+        </ul>
+    }
+    else
+    {
+      <p>Debe selecionar el usuario para buscar sus salas</p>
+    }

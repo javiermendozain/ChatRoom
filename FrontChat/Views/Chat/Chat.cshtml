@@ -1,0 +1,131 @@
+﻿@using Hanssens.Net;
+
+@{
+    ViewData["Title"] = "Chat";
+
+    var salasDisponble = (ICollection<Sala>)ViewData["salasDisponble"]; 
+    var messagesChat = (ICollection<ChatTracebility>)ViewData["messagesChat"]; 
+
+    var LocalStorage =  new LocalStorage();
+    string enroladoID = "";
+    string salaNameUnir ="";
+    Usuario usuario = new Usuario();
+
+    try{
+        usuario = LocalStorage.Get<Usuario>("usuario");
+        enroladoID = $"{LocalStorage.Get("enroladoID")}";
+        salaNameUnir = $"{LocalStorage.Get("salaNameUnir")}";
+    }
+    catch(System.Exception)
+    { }
+}
+
+<div class="container">
+
+    @if(salasDisponble == null )
+    {
+        <p>Ingresa tú nickname, para uniser a una sala de chat</p>
+    }
+    <div id="frame">
+        <div id="sidepanel">           
+            <!-- Salas disponibles -->
+            <p class="form-text text-muted">Crea una nueva sala.</p>
+                <form action="Chat" method="post" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <input type="text" id="nameSala" name="nameSala" placeholder="Escribe el nombre" class="form-control bg-light border-0 small"  />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" >
+                            Agregar  
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <ul>
+                @if (salasDisponble!=null)
+                {
+                    @foreach (var sala in salasDisponble)
+                    {
+                        <li class="contact ">
+                            <div class="wrap">
+                                <div class="meta">
+                                    <small class="name">@sala.Name</small>
+                                    <a  class="btn btn-outline-info" 
+                                        asp-controller="Chat" asp-action="Chat"
+                                        asp-route-salaIDUnir="@sala.Id"
+                                        asp-route-salaNameUnir="@sala.Name"
+                                    >
+                                        Unirme
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+        <div class="content">
+
+            <div class="header-sala">
+                @if(salaNameUnir.Length > 0){
+                    @using(Html.BeginForm("Chat","Chat",FormMethod.Post))
+                    {
+                        <div class="input-group">
+                            
+                            <input type="hidden" name="SalaSalir" value="1" />
+                            <button class="btn btn-outline-warning" type="submit" > 
+                                Salir de la sala
+                            </button> &nbsp;
+                            <strong>@salaNameUnir</strong> 
+                        </div>
+                    }
+                }
+		    </div>
+            <div class="messages">
+                @if (@usuario != null && messagesChat != null)
+                {
+                    <ul>
+                        
+                        @foreach ( var message in messagesChat)
+                        {
+                            @if (message.UserID == usuario.UID )
+                            {
+                                <li class="replies">
+                                    <p>
+                                        @message.Message <br>
+                                        <small><i>@message.UserName</i></small>
+                                    </p>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="sent">
+                                    <p>
+                                        @message.Message <br>
+                                        <small><i>@message.UserName</i></small>
+                                    </p>
+                                </li>
+                            }
+                        }
+                        
+                    </ul>
+                }
+            </div>
+            <div class="message-input">
+                @if (enroladoID.Length > 0)
+                {
+
+                    @using (Html.BeginForm("Chat", "Chat", FormMethod.Post))
+                    {
+                        <div class="wrap">
+                            <input type="text" name="messageInput" placeholder="Escribe tu mensaje..." />
+                            <button type="submit" class="submit">Enviar</button>
+                        </div>
+                    }
+                       
+                }
+            </div>
+        </div>
+    </div>
+</div>

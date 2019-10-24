@@ -1,0 +1,106 @@
+﻿@using Hanssens.Net;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FrontChat</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/chat.css" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Chat JAYA Company</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Admin">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Chat">Chat</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                    @try
+                    {
+                        var LocalStorage =  new LocalStorage();
+                        var usuario = LocalStorage.Get<Usuario>("usuario");
+                      
+
+                        if(usuario != null)
+                        {
+                            @using(Html.BeginForm("Chat","Chat",FormMethod.Post, new {@class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"}))
+                            {
+                                <div class="input-group">
+                                    <label>@usuario.Name</label> &nbsp;
+                                    <input type="hidden" name="logout" value="1" />
+                                    <button class="btn btn-danger" type="submit" > 
+                                        Salir
+                                    </button>
+                                </div>
+                            }
+                        } 
+                        else 
+                        {
+                            @using(Html.BeginForm("Chat","Chat",FormMethod.Post,new {@class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"}))
+                            {
+                                <div class="input-group">
+                                    <input type="text" name="nickname" placeholder="Escribe tu Nickname" class="form-control bg-light border-0 small"  />
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit" >
+                                            Ingresar  
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                       
+                    }
+                    catch(System.Exception)
+                    {
+                        @using(Html.BeginForm("Chat","Chat",FormMethod.Post,new {@class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"}))
+                        {
+                            <div class="input-group">
+                                <input type="text" name="nickname" placeholder="Escribe tu Nickname" class="form-control bg-light border-0 small"  />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" >
+                                        Ingresar  
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    }
+                
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - Chat - Created by: Javier Mendoza
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

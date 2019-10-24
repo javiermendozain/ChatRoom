@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+    var usuariosActivos = (ICollection<Usuario>)ViewData["usuariosActivos"]; 
+    var usuariosInActivos = (ICollection<Usuario>)ViewData["usuariosInActivos"]; 
+    var salas = (ICollection<Sala>)ViewData["salas"]; 
+}
+
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a class="nav-link active" data-toggle="tab" href="#users">Historial de usuarios </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " data-toggle="tab" href="#salas">Historial de Salas</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " data-toggle="tab" href="#activesUser">Usuarios Activos</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div id="users" class="tab-pane fade in active">
+    <ul class="list-group">
+      @foreach (var usuario in usuariosInActivos)
+      {
+        
+        <li class="list-group-item">
+          <span class="orange-circle" >&nbsp; &nbsp; </span>
+          &nbsp; @usuario.Name 
+          <a  class="btn btn-link" 
+            asp-controller="SalaUsuario" asp-action="SalaUsuario"
+            asp-route-viewSalaUserID="@usuario.UID" 
+            asp-route-viewSalaUserName="@usuario.Name" 
+
+          >
+              Ver salas
+          </a>
+         
+        </li>
+      }
+    </ul>
+
+
+  </div>
+  <div id="salas" class="tab-pane fade">
+    <ul class="list-group">
+      @foreach (var sala in salas)
+      {
+        <li class="list-group-item">
+          @sala.Name 
+          <a  class="btn btn-link" 
+            asp-controller="MessageSala" asp-action="MessageSala"
+            asp-route-SalaID="@sala.Id"
+            >
+              Ver mensajes
+            </a>
+        </li>
+      }
+    </ul>
+  </div>
+  <div id="activesUser" class="tab-pane fade">
+    
+    <ul class="list-group">
+      @foreach (var usuario in usuariosActivos)
+      {
+        
+        <li class="list-group-item">
+           <span class="green-circle" > &nbsp; &nbsp; </span>
+          &nbsp; @usuario.Name 
+          <a  class="btn  btn-link" 
+            asp-route-expulsar="@usuario.UID">
+                Expulsar
+            </a>
+         
+        </li>
+      }
+    </ul>
+  </div>
+</div>
+
+
+
