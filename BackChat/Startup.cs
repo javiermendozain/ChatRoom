@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BackChat.WebSocketManager;
+using BackChat.DataContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackChat
 {
@@ -23,11 +25,17 @@ namespace BackChat
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddSingleton<IUsuariosProvider, UsuariosProvider>();
-            services.AddSingleton<ISalasProvider, SalasProvider>();
-            services.AddSingleton<IChatTracebilityProvider, ChatTracebilityProvider>();
-            services.AddSingleton<IEnroladosProvider, EnroladosProvider>();
-          
+            services.AddScoped<IUsuariosProvider, UsuariosProvider>();
+            services.AddScoped<ISalasProvider, SalasProvider>();
+            services.AddScoped<IEnroladosProvider, EnroladosProvider>();
+            services.AddScoped<IChatTracebilityProvider, ChatTracebilityProvider>();
+
+            // Add data base context
+            services.AddDbContext<Context>( options =>
+            {
+                options.UseSqlServer(Configuration["dbConnectionString"]);
+
+            });
             services.AddWebSocketManager();
             services.AddControllers();
         }
@@ -38,6 +46,9 @@ namespace BackChat
             IWebHostEnvironment env,
              IServiceProvider serviceProvider)
         {
+
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

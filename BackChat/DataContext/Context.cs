@@ -1,6 +1,5 @@
 ﻿using BackChat.Models;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.EntityFrameworkCore.Extensions;
 
 namespace BackChat.DataContext
 {
@@ -14,10 +13,7 @@ namespace BackChat.DataContext
 
         public DbSet<ChatTracebility> ChatTracebility { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=chatJaya;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        }
+        public Context(DbContextOptions dbContext) : base(dbContext) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

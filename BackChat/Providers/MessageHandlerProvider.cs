@@ -14,7 +14,9 @@ namespace BackChat.Providers
 
         private readonly IChatTracebilityProvider chatTracebilityProvider;
 
-        public MessageHandlerProvider(WebSocketConnectionManager webSocketConnectionManager, IChatTracebilityProvider chatTracebilityProvider ) : base(webSocketConnectionManager)
+        public MessageHandlerProvider(
+            WebSocketConnectionManager webSocketConnectionManager,
+            IChatTracebilityProvider chatTracebilityProvider ) : base(webSocketConnectionManager)
         {
             this.chatTracebilityProvider = chatTracebilityProvider;
 

@@ -12,6 +12,18 @@
 
 </head>
 <body>
+    <!-- https://github.com/Blazored/Toast -->
+    @using Blazored.Toast.Configuration
+    @using Blazored.Toast
+    @using Blazored.Toast.Services
+
+    <BlazoredToasts Position="ToastPosition.BottomRight"
+                    Timeout="10"
+                    SuccessClass="success-toast-override"
+                    SuccessIconClass="fa fa-thumbs-up"
+                    ErrorIconClass="fa fa-bug" />
+
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -33,57 +45,57 @@
                         </li>
                     </ul>
                 </div>
-                
-                    @try
-                    {
-                        var LocalStorage =  new LocalStorage();
-                        var usuario = LocalStorage.Get<Usuario>("usuario");
-                      
 
-                        if(usuario != null)
-                        {
-                            @using(Html.BeginForm("Chat","Chat",FormMethod.Post, new {@class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"}))
-                            {
-                                <div class="input-group">
-                                    <label>@usuario.Name</label> &nbsp;
-                                    <input type="hidden" name="logout" value="1" />
-                                    <button class="btn btn-danger" type="submit" > 
-                                        Salir
-                                    </button>
-                                </div>
-                            }
-                        } 
-                        else 
-                        {
-                            @using(Html.BeginForm("Chat","Chat",FormMethod.Post,new {@class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"}))
-                            {
-                                <div class="input-group">
-                                    <input type="text" name="nickname" placeholder="Escribe tu Nickname" class="form-control bg-light border-0 small"  />
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit" >
-                                            Ingresar  
-                                        </button>
-                                    </div>
-                                </div>
-                            }
-                        }
-                       
-                    }
-                    catch(System.Exception)
+                @try
+                {
+                    var LocalStorage = new LocalStorage();
+                    var usuario = LocalStorage.Get<Usuario>("usuario");
+
+
+                    if (usuario != null)
                     {
-                        @using(Html.BeginForm("Chat","Chat",FormMethod.Post,new {@class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"}))
+                        @using (Html.BeginForm("Chat", "Chat", FormMethod.Post, new { @class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" }))
                         {
                             <div class="input-group">
-                                <input type="text" name="nickname" placeholder="Escribe tu Nickname" class="form-control bg-light border-0 small"  />
+                                <label>@usuario.Name</label> &nbsp;
+                                <input type="hidden" name="logout" value="1" />
+                                <button class="btn btn-danger" type="submit">
+                                    Salir
+                                </button>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        @using (Html.BeginForm("Login", "Chat", FormMethod.Post, new { @class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" }))
+                        {
+                            <div class="input-group">
+                                <input type="text" name="nickname" placeholder="Escribe tu Nickname" class="form-control bg-light border-0 small" />
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit" >
-                                        Ingresar  
+                                    <button class="btn btn-primary" type="submit">
+                                        Ingresar
                                     </button>
                                 </div>
                             </div>
                         }
                     }
-                
+
+                }
+                catch (System.Exception)
+                {
+                    @using (Html.BeginForm("Chat", "Chat", FormMethod.Post, new { @class = "d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" }))
+                    {
+                        <div class="input-group">
+                            <input type="text" name="nickname" placeholder="Escribe tu Nickname" class="form-control bg-light border-0 small" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    Ingresar
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+
             </div>
         </nav>
     </header>

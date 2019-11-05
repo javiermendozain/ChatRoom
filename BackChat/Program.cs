@@ -1,16 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
-using BackChat.Models;
 using BackChat.DataContext;
 
 namespace BackChat
@@ -18,8 +12,16 @@ namespace BackChat
     public class Program
     {
         
-        public static  void Main(string[] args)
+
+        public static void Main(string[] args)
         {
+
+            // Creates the database if not exists
+            // dbcontex.Database.EnsureCreated();
+
+            // Saves changes
+            //dbcontex.SaveChanges();
+
             CreateScheme();
             CreateHostBuilder(args).Build().Run();
             
@@ -75,12 +77,7 @@ namespace BackChat
 
         private static void CreateScheme()
         {
-            using var context = new Context();
-            // Creates the database if not exists
-            context.Database.EnsureCreated();
-
-            // Saves changes
-            context.SaveChanges();
+          
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

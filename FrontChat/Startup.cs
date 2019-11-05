@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using FrontChat.Interfaces;
 using FrontChat.Providers;
-
+using Blazored.Toast;
 
 namespace FrontChat
 {
@@ -33,7 +33,10 @@ namespace FrontChat
             {
                 c.BaseAddress = new Uri(Configuration["ChatService"]);
             });
-            
+
+            // Add alert message services 
+            services.AddBlazoredToast();
+
             // When IMessageProvider is requested, MessageProvider is injected
             services.AddSingleton<IUsuariosProvider, UsuariosProvider>();
             services.AddSingleton<ISalasProvider, SalasProvider>();

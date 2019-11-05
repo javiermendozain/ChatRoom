@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FrontChat.Models;
 using FrontChat.Interfaces;
+using Blazored.Toast.Services;
 
 
 namespace FrontChat.Controllers
@@ -14,14 +15,23 @@ namespace FrontChat.Controllers
     public class HomeController : Controller
     {
         private readonly IUsuariosProvider usuariosProvider;
+        private readonly IToastService toastService;
 
-        public HomeController(IUsuariosProvider usuariosProvider)
+     
+        public HomeController(IUsuariosProvider usuariosProvider, IToastService toastService)
         {
             this.usuariosProvider = usuariosProvider;
+            this.toastService = toastService;
         }
 
         public IActionResult Index()
         {
+            toastService.ShowSuccess("I'm a SUCCESS message with a custom heading", "Congratulations!");
+           // toastService.ShowInfo("I'm an INFO message");
+           // toastService.ShowSuccess("I'm a SUCCESS message with a custom heading", "Congratulations!");
+           // toastService.ShowWarning("I'm a WARNING message");
+           // toastService.ShowError("I'm an ERROR message");
+
             return View();
         }
 

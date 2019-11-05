@@ -21,6 +21,8 @@ namespace FrontChat.Controllers
         private readonly ISalasProvider salasProvider;
         private readonly IEnroladosProvider enroladosProvider;
 
+        private readonly string mainChatView = "Chat";
+
         private LocalStorage LocalStorage;
 
         private ClientWebSocket client;
@@ -108,7 +110,7 @@ namespace FrontChat.Controllers
 
         }
 
-        private async Task Login(string nickname){
+        private async Task<IActionResult> Login(string nickname){
            
             string UID = Guid.NewGuid().ToString();
             Usuario  usuario = new  Usuario(){
@@ -123,7 +125,13 @@ namespace FrontChat.Controllers
                 // store a usuario
                 LocalStorage.Store("usuario", usuario);
                 LocalStorage.Persist();
+
             }
+            else
+            {
+
+            }
+            return View(mainChatView);
         }
 
         private async Task Join (string salaNameUnir, int salaIDUnir)
